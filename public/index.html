@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>BentoFolio — GitHub Portfolio Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        <span>✦</span>
+        BentoFolio
+    </div>
+
+    <a
+        href="https://github.com"
+        target="_blank"
+        class="github-link"
+    >
+        GitHub
+    </a>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="hero">
+
+
+    <!-- =========================
+         HERO CONTENT
+    ========================== -->
+
+    <section class="hero-content">
+
+
+        <div class="badge">
+            ✦ One-Click Portfolio Generator
+        </div>
+
+
+        <h1>
+            Turn your <span>GitHub</span><br>
+            into a beautiful portfolio.
+        </h1>
+
+
+        <p>
+            Enter your GitHub username and instantly generate
+            a modern Bento-grid developer portfolio.
+        </p>
+
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+
+            <div class="github-icon">
+                ◉
+            </div>
+
+
+            <input
+                type="text"
+                id="githubUsername"
+                placeholder="Enter your GitHub username"
+                autocomplete="off"
+            >
+
+
+            <button
+                id="generateBtn"
+                type="button"
+            >
+                Generate →
+            </button>
+
+
+        </div>
+
+
+        <p class="hint">
+            No coding required • Free to generate
+        </p>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         GITHUB → AI → BENTO
+    ========================== -->
+
+    <section class="ai-showcase">
+
+
+        <div class="ai-glow"></div>
+
+
+        <!-- GitHub -->
+
+        <div class="ai-flow-card github-flow">
+
+            <div class="flow-icon">
+                ◉
+            </div>
+
+            <div>
+                <strong>GitHub</strong>
+                <span>Your profile</span>
+            </div>
+
+        </div>
+
+
+        <div class="flow-line line-left"></div>
+
+
+        <!-- AI -->
+
+        <div class="ai-core">
+
+            <div class="ai-spark">
+                ✦
+            </div>
+
+            <strong>AI</strong>
+
+            <span>ANALYZING</span>
+
+        </div>
+
+
+        <div class="flow-line line-right"></div>
+
+
+        <!-- Bento -->
+
+        <div class="ai-flow-card portfolio-flow">
+
+            <div class="flow-icon">
+                ▦
+            </div>
+
+            <div>
+                <strong>Bento</strong>
+                <span>Portfolio</span>
+            </div>
+
+        </div>
+
+
+        <!-- particles -->
+
+        <div class="ai-particle particle-1"></div>
+
+        <div class="ai-particle particle-2"></div>
+
+
+        <div class="ai-caption">
+
+            <span>GitHub</span>
+
+            <b>→</b>
+
+            <span>AI Analysis</span>
+
+            <b>→</b>
+
+            <span>Bento Portfolio</span>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         BENTO PREVIEW
+    ========================== -->
+
+    <section class="bento-preview">
+
+
+        <!-- =====================
+             PROFILE
+        ====================== -->
+
+        <div class="bento-card profile-card">
+
+
+            <div class="profile-image-wrapper">
+
+                <img
+                    src="images/profile-visual.png"
+                    alt="Developer"
+                    class="profile-image"
+                >
+
+            </div>
+
+
+            <div class="profile-info">
+
+                <h3>
+                    Developer
+                </h3>
+
+                <p>
+                    Full Stack Developer
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================
+             GITHUB STATS
+        ====================== -->
+
+        <div class="bento-card stats-card">
+
+
+            <span class="card-label">
+                GITHUB STATS
+            </span>
+
+
+            <div class="stats">
+
+
+                <div>
+
+                    <strong>
+                        42
+                    </strong>
+
+                    <span>
+                        Repos
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        1.2K
+                    </strong>
+
+                    <span>
+                        Stars
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================
+             FEATURED PROJECT
+        ====================== -->
+
+        <div class="bento-card project-card">
+
+
+            <div class="project-image">
+
+                <img
+                    src="images/project-visual.png"
+                    alt="Developer coding project"
+                >
+
+                <div class="project-overlay"></div>
+
+            </div>
+
+
+            <div class="project-content">
+
+                <span class="card-label">
+                    FEATURED PROJECT
+                </span>
+
+
+                <h3>
+                    Awesome Project
+                </h3>
+
+
+                <p>
+                    A modern project automatically
+                    imported from GitHub.
+                </p>
+
+
+                <div class="languages">
+
+                    <span>
+                        JavaScript
+                    </span>
+
+                    <span>
+                        React
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================
+             TECH STACK
+        ====================== -->
+
+        <div class="bento-card skills-card">
+
+
+            <span class="card-label">
+                TECH STACK
+            </span>
+
+
+            <div class="skills">
+
+                <span>Python</span>
+
+                <span>Java</span>
+
+                <span>JavaScript</span>
+
+                <span>HTML</span>
+
+                <span>CSS</span>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        Built with GitHub API • BentoFolio
+    </p>
+
+</footer>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script src="./script.js"></script>
+
+
+</body>
+
+</html>

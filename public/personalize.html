@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Personalize | BentoFolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #07070a;
+            --card: rgba(18, 18, 24, 0.78);
+            --border: rgba(255, 255, 255, 0.09);
+            --text: #f7f5fb;
+            --muted: #96939f;
+            --purple: #a984ff;
+            --purple-dark: #7651e8;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(137, 91, 255, .18), transparent 30%),
+                radial-gradient(circle at 90% 20%, rgba(92, 58, 190, .14), transparent 28%),
+                radial-gradient(circle at 50% 100%, rgba(122, 79, 240, .10), transparent 35%),
+                var(--bg);
+            padding: 25px 20px 70px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            left: -250px;
+            top: 45%;
+            border-radius: 50%;
+            background: rgba(126, 85, 255, .07);
+            filter: blur(100px);
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            right: -200px;
+            bottom: -150px;
+            border-radius: 50%;
+            background: rgba(170, 120, 255, .06);
+            filter: blur(100px);
+            pointer-events: none;
+        }
+
+        .container {
+            width: min(980px, 100%);
+            margin: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: -0.7px;
+        }
+
+        .logo span {
+            color: var(--purple);
+        }
+
+        .back {
+            color: #aaa6b3;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 9px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: .25s;
+        }
+
+        .back:hover {
+            color: white;
+            border-color: rgba(169, 132, 255, .5);
+            background: rgba(169, 132, 255, .07);
+        }
+
+        /* PROGRESS */
+
+        .progress {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #66636e;
+            font-size: 12px;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 1px solid #292731;
+            background: #0d0d11;
+            font-size: 11px;
+        }
+
+        .step.active {
+            color: #ddd8e8;
+        }
+
+        .step.active .step-number {
+            color: white;
+            border-color: var(--purple);
+            background: rgba(145, 102, 255, .18);
+            box-shadow: 0 0 22px rgba(145, 102, 255, .18);
+        }
+
+        .line {
+            width: 55px;
+            height: 1px;
+            background: #292731;
+        }
+
+        /* HERO */
+
+        .hero {
+            text-align: center;
+            margin-bottom: 42px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(169, 132, 255, .22);
+            background: rgba(169, 132, 255, .07);
+            color: #bea8ed;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(42px, 7vw, 68px);
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 18px;
+        }
+
+        .gradient {
+            background: linear-gradient(90deg, #fff 20%, #c1a5ff 55%, #8c64ed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            max-width: 620px;
+            margin: auto;
+            color: #8f8c97;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* FORM */
+
+        .form-card {
+            background: linear-gradient(
+                145deg,
+                rgba(24, 23, 31, .88),
+                rgba(12, 12, 16, .88)
+            );
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 38px;
+            backdrop-filter: blur(20px);
+            box-shadow:
+                0 35px 100px rgba(0, 0, 0, .42),
+                inset 0 1px rgba(255, 255, 255, .025);
+        }
+
+        .form-section {
+            padding-bottom: 35px;
+            margin-bottom: 35px;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .section-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: rgba(153, 111, 255, .12);
+            border: 1px solid rgba(153, 111, 255, .18);
+            font-size: 17px;
+        }
+
+        .section-heading h2 {
+            font-size: 17px;
+        }
+
+        .section-heading p {
+            color: #686570;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            color: #aaa7b1;
+            font-size: 12px;
+            margin-bottom: 9px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 15px 16px;
+            background: rgba(7, 7, 10, .75);
+            border: 1px solid #292830;
+            border-radius: 13px;
+            color: white;
+            outline: none;
+            font-size: 14px;
+            transition: .25s;
+        }
+
+        input:hover,
+        textarea:hover {
+            border-color: #393641;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #8e67ed;
+            box-shadow:
+                0 0 0 3px rgba(142, 103, 237, .10),
+                0 0 25px rgba(142, 103, 237, .06);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #4e4c55;
+        }
+
+        textarea {
+            min-height: 125px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* SKILLS */
+
+        .skills-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .skills-input input {
+            flex: 1;
+        }
+
+        .add-btn {
+            border: 1px solid rgba(169,132,255,.28);
+            background: rgba(137,96,235,.10);
+            color: #c6b1f4;
+            border-radius: 13px;
+            padding: 0 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: .25s;
+        }
+
+        .add-btn:hover {
+            background: rgba(137,96,235,.20);
+            transform: translateY(-1px);
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 14px;
+        }
+
+        .skill {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 12px;
+            border-radius: 50px;
+            background: rgba(137,96,235,.10);
+            border: 1px solid rgba(169,132,255,.20);
+            color: #cdbcf0;
+            font-size: 12px;
+            animation: skillIn .25s ease;
+        }
+
+        @keyframes skillIn {
+            from {
+                opacity: 0;
+                transform: scale(.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .skill button {
+            width: 18px;
+            height: 18px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,.07);
+            color: #99949f;
+            cursor: pointer;
+            line-height: 16px;
+            transition: .2s;
+        }
+
+        .skill button:hover {
+            color: white;
+            background: rgba(255,255,255,.16);
+        }
+
+        /* THEMES */
+
+        .theme-section {
+            padding-top: 4px;
+            margin-bottom: 30px;
+        }
+
+        .themes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .theme {
+            padding: 12px;
+            border: 1px solid #292830;
+            border-radius: 17px;
+            background: rgba(7,7,10,.55);
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .theme:hover {
+            transform: translateY(-3px);
+            border-color: #51456e;
+        }
+
+        .theme.active {
+            border-color: #a984ff;
+            background: rgba(137,96,235,.08);
+            box-shadow:
+                0 0 0 2px rgba(169,132,255,.08),
+                0 12px 35px rgba(88,58,170,.12);
+        }
+
+        .theme-preview {
+            height: 85px;
+            border-radius: 11px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-preview::after {
+            content: "";
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            top: 18px;
+            left: 22px;
+            background: rgba(255,255,255,.15);
+            filter: blur(3px);
+        }
+
+        .midnight {
+            background:
+                linear-gradient(135deg, #09090c, #312152 70%, #7253b8);
+        }
+
+        .aurora {
+            background:
+                linear-gradient(135deg, #062421, #563579 55%, #1d263d);
+        }
+
+        .minimal {
+            background:
+                linear-gradient(135deg, #f0f0f0, #bcbcbc 55%, #777);
+        }
+
+        .theme-name {
+            color: #c6c2cc;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 0 3px 2px;
+        }
+
+        .theme-description {
+            color: #66636d;
+            font-size: 10px;
+            padding: 4px 3px 1px;
+        }
+
+        /* GENERATE */
+
+        .generate {
+            width: 100%;
+            padding: 17px;
+            border: 0;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #a47cff, #7049e8);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: .1px;
+            cursor: pointer;
+            transition: .3s;
+            box-shadow: 0 12px 35px rgba(111,76,225,.18);
+        }
+
+        .generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 17px 45px rgba(111,76,225,.30);
+        }
+
+        .generate:active {
+            transform: translateY(0);
+        }
+
+        .hint {
+            text-align: center;
+            color: #5d5a65;
+            font-size: 11px;
+            margin-top: 14px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 20px 14px 50px;
+            }
+
+            .progress {
+                gap: 7px;
+            }
+
+            .step {
+                font-size: 10px;
+            }
+
+            .step-number {
+                width: 25px;
+                height: 25px;
+            }
+
+            .line {
+                width: 20px;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+
+            .form-card {
+                padding: 22px;
+                border-radius: 22px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .themes {
+                grid-template-columns: 1fr;
+            }
+
+            .theme-preview {
+                height: 65px;
+            }
+
+            .skills-input {
+                flex-direction: column;
+            }
+
+            .add-btn {
+                padding: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- NAVBAR -->
+
+        <nav>
+
+            <div class="logo">
+                Bento<span>Folio</span>
+            </div>
+
+            <a href="/" class="back">
+                ← Back
+            </a>
+
+        </nav>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress">
+
+            <div class="step">
+                <div class="step-number">1</div>
+                GitHub
+            </div>
+
+            <div class="line"></div>
+
+            <div class="step active">
+                <div class="step-number">2</div>
+                Personalize
+            </div>
+
+            <div class="line"></div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                Portfolio
+            </div>
+
+        </div>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="badge">
+                ✦ Personalize your portfolio
+            </div>
+
+            <h1>
+                Make it <span class="gradient">yours.</span>
+            </h1>
+
+            <p class="subtitle">
+                Add your personal details, skills and preferred style.
+                We'll combine them with your GitHub profile automatically.
+            </p>
+
+        </section>
+
+
+        <!-- FORM -->
+
+        <div class="form-card">
+
+
+            <!-- ABOUT -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-icon">
+                        👤
+                    </div>
+
+                    <div>
+                        <h2>About You</h2>
+                        <p>Tell visitors who you are</p>
+                    </div>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div>
+
+                        <label>
+                            Role / Designation
+                        </label>
+
+                        <input
+                            type="text"
+                            id="role"
+                            placeholder="e.g. B.Tech CSE Student"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            Education
+                        </label>
+
+                        <input
+                            type="text"
+                            id="education"
+                            placeholder="e.g. B.Tech Computer Science"
+                        >
+
+                    </div>
+
+
+                    <div class="full">
+
+                        <label>
+                            Short Introduction
+                        </label>
+
+                        <textarea
+                            id="intro"
+                            placeholder="Tell people a little about yourself..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SKILLS -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-icon">
+                        🛠️
+                    </div>
+
+                    <div>
+                        <h2>Your Skills</h2>
+                        <p>Add the technologies you work with</p>
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Add your skills
+                    </label>
+
+                    <div class="skills-input">
+
+                        <input
+                            type="text"
+                            id="skillInput"
+                            placeholder="e.g. Python"
+                        >
+
+                        <button
+                            class="add-btn"
+                            id="addSkill"
+                            type="button"
+                        >
+                            + Add
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="skills-container"
+                        id="skillsContainer"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- CONTACT -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-icon">
+                        🔗
+                    </div>
+
+                    <div>
+                        <h2>Contact & Links</h2>
+                        <p>Let people connect with you</p>
+                    </div>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div>
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="you@example.com"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            LinkedIn
+                        </label>
+
+                        <input
+                            type="text"
+                            id="linkedin"
+                            placeholder="linkedin.com/in/yourname"
+                        >
+
+                    </div>
+
+
+                    <div class="full">
+
+                        <label>
+                            Personal Website
+                        </label>
+
+                        <input
+                            type="text"
+                            id="website"
+                            placeholder="https://yourwebsite.com"
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- THEME -->
+
+            <section class="theme-section">
+
+                <div class="section-heading">
+
+                    <div class="section-icon">
+                        🎨
+                    </div>
+
+                    <div>
+                        <h2>Choose Your Style</h2>
+                        <p>Pick the visual style for your portfolio</p>
+                    </div>
+
+                </div>
+
+
+                <div class="themes">
+
+                    <div
+                        class="theme active"
+                        data-theme="midnight"
+                    >
+
+                        <div class="theme-preview midnight"></div>
+
+                        <div class="theme-name">
+                            Midnight
+                        </div>
+
+                        <div class="theme-description">
+                            Dark & elegant
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="theme"
+                        data-theme="aurora"
+                    >
+
+                        <div class="theme-preview aurora"></div>
+
+                        <div class="theme-name">
+                            Aurora
+                        </div>
+
+                        <div class="theme-description">
+                            Colorful & creative
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="theme"
+                        data-theme="minimal"
+                    >
+
+                        <div class="theme-preview minimal"></div>
+
+                        <div class="theme-name">
+                            Minimal
+                        </div>
+
+                        <div class="theme-description">
+                            Clean & simple
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- GENERATE -->
+
+            <button
+                class="generate"
+                id="generatePortfolio"
+                type="button"
+            >
+                Generate My Portfolio ✨
+            </button>
+
+            <div class="hint">
+                Your GitHub data and personal details stay in your browser.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* =========================
+           SKILLS
+        ========================= */
+
+        const skills = [];
+
+        const skillInput =
+            document.getElementById("skillInput");
+
+        const addSkill =
+            document.getElementById("addSkill");
+
+        const skillsContainer =
+            document.getElementById("skillsContainer");
+
+
+        function renderSkills() {
+
+            skillsContainer.innerHTML = "";
+
+            skills.forEach((skill, index) => {
+
+                const element =
+                    document.createElement("div");
+
+                element.className = "skill";
+
+                element.innerHTML = `
+                    <span>${skill}</span>
+                    <button
+                        type="button"
+                        onclick="removeSkill(${index})"
+                    >×</button>
+                `;
+
+                skillsContainer.appendChild(element);
+
+            });
+
+        }
+
+
+        function addNewSkill() {
+
+            const value =
+                skillInput.value.trim();
+
+            if (!value) return;
+
+            if (!skills.includes(value)) {
+
+                skills.push(value);
+
+            }
+
+            skillInput.value = "";
+
+            renderSkills();
+
+            skillInput.focus();
+
+        }
+
+
+        addSkill.addEventListener(
+            "click",
+            addNewSkill
+        );
+
+
+        skillInput.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    addNewSkill();
+
+                }
+
+            }
+        );
+
+
+        function removeSkill(index) {
+
+            skills.splice(index, 1);
+
+            renderSkills();
+
+        }
+
+
+        /* =========================
+           THEME SELECTION
+        ========================= */
+
+        let selectedTheme = "midnight";
+
+
+        document
+            .querySelectorAll(".theme")
+            .forEach(theme => {
+
+                theme.addEventListener(
+                    "click",
+                    () => {
+
+                        document
+                            .querySelectorAll(".theme")
+                            .forEach(t =>
+                                t.classList.remove("active")
+                            );
+
+                        theme.classList.add("active");
+
+                        selectedTheme =
+                            theme.dataset.theme;
+
+                    }
+                );
+
+            });
+
+
+        /* =========================
+           GENERATE PORTFOLIO
+        ========================= */
+
+        document
+            .getElementById("generatePortfolio")
+            .addEventListener("click", () => {
+
+                const personalData = {
+
+                    role:
+                        document.getElementById("role").value.trim(),
+
+                    education:
+                        document.getElementById("education").value.trim(),
+
+                    intro:
+                        document.getElementById("intro").value.trim(),
+
+                    skills:
+                        skills,
+
+                    email:
+                        document.getElementById("email").value.trim(),
+
+                    linkedin:
+                        document.getElementById("linkedin").value.trim(),
+
+                    website:
+                        document.getElementById("website").value.trim(),
+
+                    theme:
+                        selectedTheme
+
+                };
+
+
+                localStorage.setItem(
+                    "personalData",
+                    JSON.stringify(personalData)
+                );
+
+
+                window.location.href =
+                    "/portfolio.html";
+
+            });
+
+    </script>
+
+</body>
+
+</html>

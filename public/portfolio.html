@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BentoFolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #08080b;
+            --card: rgba(255, 255, 255, 0.045);
+            --border: rgba(255, 255, 255, 0.09);
+            --text: #f5f5f5;
+            --muted: #96969f;
+            --accent: #b99cff;
+            --accent2: #7c5cff;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--text);
+            font-family: Inter, Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(124, 92, 255, 0.15),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 85% 25%,
+                    rgba(185, 156, 255, 0.10),
+                    transparent 25%
+                ),
+                var(--bg);
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                );
+
+            background-size: 45px 45px;
+            mask-image: linear-gradient(
+                to bottom,
+                black,
+                transparent
+            );
+        }
+
+        .container {
+            width: min(1180px, 92%);
+            margin: auto;
+            padding: 30px 0 70px;
+            position: relative;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: #ddd;
+            text-decoration: none;
+
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,.04);
+
+            padding: 9px 14px;
+            border-radius: 12px;
+
+            font-size: 13px;
+            transition: .25s;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+            border-color: rgba(185,156,255,.5);
+        }
+
+        /* HERO */
+
+        .hero {
+            margin-bottom: 18px;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 78px);
+            letter-spacing: -4px;
+            line-height: .98;
+            max-width: 900px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            max-width: 700px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        /* BENTO */
+
+        .bento {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr 1fr;
+            grid-auto-rows: minmax(190px, auto);
+            gap: 16px;
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+
+            padding: 26px;
+
+            border-radius: 26px;
+            border: 1px solid var(--border);
+
+            background: var(--card);
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 20px 70px rgba(0,0,0,.22);
+
+            transition:
+                transform .3s ease,
+                border-color .3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(185,156,255,.28);
+        }
+
+        .card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 140px;
+            height: 140px;
+
+            right: -70px;
+            top: -70px;
+
+            border-radius: 50%;
+
+            background: rgba(185,156,255,.08);
+
+            filter: blur(15px);
+
+            pointer-events: none;
+        }
+
+        .profile {
+            grid-row: span 2;
+        }
+
+        .stats {
+            grid-column: span 2;
+        }
+
+        .projects {
+            grid-column: span 3;
+        }
+
+        .section-label {
+            color: #777780;
+
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+
+            margin-bottom: 20px;
+        }
+
+        /* PROFILE */
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+
+            object-fit: cover;
+
+            border-radius: 28px;
+
+            border: 1px solid rgba(255,255,255,.15);
+
+            margin-bottom: 22px;
+        }
+
+        .profile h2 {
+            font-size: 31px;
+            margin-bottom: 5px;
+        }
+
+        .username {
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .role {
+            color: #ddd;
+            font-size: 15px;
+            margin-bottom: 18px;
+        }
+
+        .bio {
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 22px;
+        }
+
+        .location {
+            color: #aaa;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .education {
+            color: #aaa;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .github-btn {
+            display: inline-flex;
+
+            align-items: center;
+            gap: 8px;
+
+            color: #08080b;
+
+            background: var(--accent);
+
+            padding: 11px 16px;
+
+            border-radius: 12px;
+
+            text-decoration: none;
+
+            font-weight: 700;
+            font-size: 13px;
+
+            transition: .25s;
+        }
+
+        .github-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(185,156,255,.25);
+        }
+
+        /* CONTACT */
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-item {
+            display: block;
+
+            color: #ccc;
+
+            text-decoration: none;
+
+            padding: 11px 13px;
+
+            border-radius: 13px;
+
+            background: rgba(255,255,255,.035);
+
+            border: 1px solid rgba(255,255,255,.06);
+
+            font-size: 13px;
+
+            transition: .25s;
+
+            word-break: break-word;
+        }
+
+        .contact-item:hover {
+            border-color: rgba(185,156,255,.3);
+            transform: translateX(3px);
+        }
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 12px;
+        }
+
+        .stat {
+            padding: 18px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,.035);
+
+            border: 1px solid rgba(255,255,255,.06);
+        }
+
+        .stat strong {
+            display: block;
+
+            font-size: 29px;
+
+            margin-bottom: 5px;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* SKILLS */
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .skill {
+            padding: 9px 13px;
+
+            border-radius: 30px;
+
+            background: rgba(185,156,255,.09);
+
+            border: 1px solid rgba(185,156,255,.15);
+
+            color: #d8cbff;
+
+            font-size: 12px;
+
+            transition: .25s;
+        }
+
+        .skill:hover {
+            transform: translateY(-2px);
+            background: rgba(185,156,255,.16);
+        }
+
+        /* PROJECTS */
+
+        .repo-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 14px;
+        }
+
+        .repo {
+            padding: 20px;
+
+            min-height: 190px;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,.035);
+
+            border: 1px solid rgba(255,255,255,.07);
+
+            transition: .3s;
+        }
+
+        .repo:hover {
+            transform: translateY(-4px);
+
+            background:
+                rgba(185,156,255,.06);
+        }
+
+        .repo h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .repo p {
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            min-height: 62px;
+        }
+
+        .repo-bottom {
+            margin-top: 18px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .language {
+            color: var(--accent);
+            font-size: 11px;
+        }
+
+        .repo-link {
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 12px;
+        }
+
+        /* LOADING */
+
+        .loading {
+            text-align: center;
+
+            padding: 100px 0;
+
+            color: var(--muted);
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+
+            color: #555;
+
+            font-size: 12px;
+
+            margin-top: 25px;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 850px) {
+
+            .bento {
+                grid-template-columns: 1fr;
+            }
+
+            .profile,
+            .stats,
+            .projects {
+                grid-column: span 1;
+                grid-row: auto;
+            }
+
+            .repo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+        }
+
+        @media(max-width: 500px) {
+
+            .container {
+                width: 94%;
+            }
+
+            nav {
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .card {
+                padding: 21px;
+                border-radius: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="brand">
+            <span>✦</span> BentoFolio
+        </div>
+
+        <div class="nav-links">
+
+    <a href="/">
+        Generate New
+    </a>
+
+    <a
+        id="githubNav"
+        href="#"
+        target="_blank">
+        GitHub ↗
+    </a>
+
+    <a
+        href="#"
+        id="sharePortfolio">
+        ↗ Share Portfolio
+    </a>
+
+</div>
+
+    </nav>
+
+
+    <!-- LOADING -->
+
+    <div id="loading" class="loading">
+        ✦ Creating your portfolio...
+    </div>
+
+
+    <!-- PORTFOLIO -->
+
+    <main
+        id="portfolio"
+        style="display:none;">
+
+        <!-- HERO -->
+
+        <section class="hero premium-hero">
+
+    <div class="hero-glow glow-one"></div>
+    <div class="hero-glow glow-two"></div>
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            <span class="pulse-dot"></span>
+            Developer Portfolio
+        </div>
+
+        <h1>
+            <span id="heroName">Developer</span>
+            <br>
+
+            <span class="gradient-text" id="heroRole">
+                Building things worth exploring.
+            </span>
+        </h1>
+
+        <p id="heroBio">
+            A developer passionate about creating useful digital experiences.
+        </p>
+
+        
+
+    </div>
+
+    
+
+</section>
+
+
+        <!-- BENTO -->
+
+        <section class="bento">
+
+
+            <!-- PROFILE -->
+
+            <article class="card profile">
+
+                <div class="section-label">
+                    About me
+                </div>
+
+                <img
+                    id="avatar"
+                    class="avatar"
+                    src=""
+                    alt="Profile">
+
+                <h2 id="name">
+                    Developer
+                </h2>
+
+                <div
+                    id="username"
+                    class="username">
+                    @username
+                </div>
+
+                <div
+                    id="role"
+                    class="role">
+                    Developer
+                </div>
+
+                <p
+                    id="bio"
+                    class="bio">
+                </p>
+
+                <div
+                    id="education"
+                    class="education">
+                </div>
+
+                <div
+                    id="location"
+                    class="location">
+                </div>
+
+                <a
+                    id="githubLink"
+                    class="github-btn"
+                    href="#"
+                    target="_blank">
+
+                    View GitHub ↗
+
+                </a>
+
+            </article>
+
+
+            <!-- GITHUB STATS -->
+
+            <article class="card stats">
+
+                <div class="section-label">
+                    GitHub presence
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat">
+
+                        <strong id="repos">
+                            0
+                        </strong>
+
+                        <span>
+                            Repositories
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <strong id="followers">
+                            0
+                        </strong>
+
+                        <span>
+                            Followers
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <strong id="following">
+                            0
+                        </strong>
+
+                        <span>
+                            Following
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- SKILLS -->
+
+            <article class="card">
+
+                <div class="section-label">
+                    My Tech Stack
+                </div>
+
+                <div
+                    id="skills"
+                    class="skills">
+                </div>
+
+            </article>
+
+
+            <!-- EDUCATION / JOURNEY -->
+
+            <article class="card">
+
+                <div class="section-label">
+                    Education & Journey
+                </div>
+
+                <h2 id="journeyTitle">
+                    My Journey
+                </h2>
+
+                <p
+                    id="journeyText"
+                    class="bio"
+                    style="margin-top:15px;">
+                    Building, learning and shipping one project at a time.
+                </p>
+
+            </article>
+
+
+            <!-- CONTACT -->
+
+            <article class="card">
+
+                <div class="section-label">
+                    Connect
+                </div>
+
+                <div class="contact-list">
+
+                    <a
+                        id="emailLink"
+                        class="contact-item"
+                        href="#">
+                        ✉ Email
+                    </a>
+
+                    <a
+                        id="linkedinLink"
+                        class="contact-item"
+                        href="#"
+                        target="_blank">
+                        ↗ LinkedIn
+                    </a>
+
+                    <a
+                        id="websiteLink"
+                        class="contact-item"
+                        href="#"
+                        target="_blank">
+                        ◉ Personal Website
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROJECTS -->
+
+            <article class="card projects">
+
+                <div class="section-label">
+                    Selected Work
+                </div>
+
+                <div
+                    id="repositories"
+                    class="repo-grid">
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Generated with ✦ BentoFolio
+    </footer>
+
+</div>
+
+
+<script>
+
+    /* =========================================
+       LOAD SAVED DATA
+    ========================================= */
+
+    const user =
+        JSON.parse(
+            localStorage.getItem("githubUser")
+        ) || {};
+
+    const repos =
+        JSON.parse(
+            localStorage.getItem("githubRepos")
+        ) || [];
+
+    const personalData =
+        JSON.parse(
+            localStorage.getItem("personalData")
+        ) || {};
+
+
+    /* =========================================
+       CHECK GITHUB DATA
+    ========================================= */
+
+    if (!user.login) {
+
+        window.location.href = "/";
+
+    } else {
+
+        document.getElementById("loading").style.display =
+            "none";
+
+        document.getElementById("portfolio").style.display =
+            "block";
+
+
+        /* =========================================
+           PROFILE
+        ========================================= */
+
+        document.getElementById("avatar").src =
+            user.avatar_url || "";
+
+
+        /*
+           Use GitHub name because GitHub identifies
+           the account, while Personalize provides
+           the user's professional information.
+        */
+
+        const displayName =
+            user.name ||
+            user.login;
+
+
+        document.getElementById("name").textContent =
+            displayName;
+
+
+        document.getElementById("heroName").textContent =
+            displayName;
+
+
+        document.getElementById("username").textContent =
+            "@" + user.login;
+
+
+        /* =========================================
+           ROLE
+        ========================================= */
+
+        const role =
+            personalData.role ||
+            "Developer";
+
+
+        document.getElementById("role").textContent =
+            role;
+
+
+        document.getElementById("heroRole").textContent =
+            role;
+
+
+        /* =========================================
+           INTRODUCTION
+        ========================================= */
+
+        const introduction =
+            personalData.intro ||
+            user.bio ||
+            "A developer passionate about creating useful digital experiences.";
+
+
+        document.getElementById("bio").textContent =
+            introduction;
+
+
+        document.getElementById("heroBio").textContent =
+            introduction;
+
+
+        /* =========================================
+           EDUCATION
+        ========================================= */
+
+        const education =
+            personalData.education ||
+            "Education details not provided.";
+
+
+        document.getElementById("education").textContent =
+            "🎓 " + education;
+
+
+        document.getElementById("journeyTitle").textContent =
+            education;
+
+
+        document.getElementById("journeyText").textContent =
+            introduction;
+
+
+        /* =========================================
+           LOCATION
+        ========================================= */
+
+        document.getElementById("location").textContent =
+            user.location
+                ? "📍 " + user.location
+                : "🌎 Open to possibilities";
+
+
+        /* =========================================
+           GITHUB LINKS
+        ========================================= */
+
+        document.getElementById("githubLink").href =
+            user.html_url;
+
+
+        document.getElementById("githubNav").href =
+            user.html_url;
+
+
+        /* =========================================
+           GITHUB STATS
+        ========================================= */
+
+        document.getElementById("repos").textContent =
+            user.public_repos || 0;
+
+
+        document.getElementById("followers").textContent =
+            user.followers || 0;
+
+
+        document.getElementById("following").textContent =
+            user.following || 0;
+
+
+        /* =========================================
+           PERSONAL SKILLS
+        ========================================= */
+
+        const skillsContainer =
+            document.getElementById("skills");
+
+
+        skillsContainer.innerHTML = "";
+
+
+        const personalSkills =
+            Array.isArray(personalData.skills)
+                ? personalData.skills
+                : [];
+
+
+        /*
+           If user entered skills, show those.
+           Otherwise use GitHub languages.
+        */
+
+        if (personalSkills.length > 0) {
+
+            personalSkills.forEach(skillName => {
+
+                const skill =
+                    document.createElement("div");
+
+                skill.className =
+                    "skill";
+
+                skill.textContent =
+                    skillName;
+
+                skillsContainer.appendChild(skill);
+
+            });
+
+        } else {
+
+            const languageCount = {};
+
+
+            repos.forEach(repo => {
+
+                if (repo.language) {
+
+                    languageCount[repo.language] =
+                        (languageCount[repo.language] || 0) + 1;
+
+                }
+
+            });
+
+
+            const languages =
+                Object.entries(languageCount)
+                    .sort((a,b) => b[1] - a[1])
+                    .slice(0, 8);
+
+
+            languages.forEach(([language]) => {
+
+                const skill =
+                    document.createElement("div");
+
+                skill.className =
+                    "skill";
+
+                skill.textContent =
+                    language;
+
+                skillsContainer.appendChild(skill);
+
+            });
+
+        }
+
+
+        /* =========================================
+           CONTACT INFORMATION
+        ========================================= */
+
+        const emailLink =
+            document.getElementById("emailLink");
+
+        const linkedinLink =
+            document.getElementById("linkedinLink");
+
+        const websiteLink =
+            document.getElementById("websiteLink");
+
+
+        if (personalData.email) {
+
+            emailLink.href =
+                "mailto:" + personalData.email;
+
+            emailLink.textContent =
+                "✉ " + personalData.email;
+
+        } else {
+
+            emailLink.style.display =
+                "none";
+
+        }
+
+
+        if (personalData.linkedin) {
+
+            let linkedin =
+                personalData.linkedin.trim();
+
+
+            if (
+                !linkedin.startsWith("http://") &&
+                !linkedin.startsWith("https://")
+            ) {
+
+                linkedin =
+                    "https://" + linkedin;
+
+            }
+
+
+            linkedinLink.href =
+                linkedin;
+
+            linkedinLink.textContent =
+                "↗ LinkedIn";
+
+        } else {
+
+            linkedinLink.style.display =
+                "none";
+
+        }
+
+
+        if (personalData.website) {
+
+            let website =
+                personalData.website.trim();
+
+
+            if (
+                !website.startsWith("http://") &&
+                !website.startsWith("https://")
+            ) {
+
+                website =
+                    "https://" + website;
+
+            }
+
+
+            websiteLink.href =
+                website;
+
+            websiteLink.textContent =
+                "◉ Personal Website";
+
+        } else {
+
+            websiteLink.style.display =
+                "none";
+
+        }
+
+
+        /* =========================================
+           REPOSITORIES
+        ========================================= */
+
+        const repoContainer =
+            document.getElementById("repositories");
+
+
+        repoContainer.innerHTML = "";
+
+
+        if (repos.length === 0) {
+
+            repoContainer.innerHTML =
+                "<p class='bio'>No public repositories found.</p>";
+
+        } else {
+
+            repos.forEach(repo => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "repo";
+
+
+                const description =
+                    repo.description ||
+                    "A project built and maintained on GitHub.";
+
+
+                card.innerHTML = `
+
+                    <h3>
+                        ${escapeHTML(repo.name)}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(description)}
+                    </p>
+
+                    <div class="repo-bottom">
+
+                        <span class="language">
+                            ${escapeHTML(
+                                repo.language ||
+                                "Open Source"
+                            )}
+                        </span>
+
+                        <a
+                            class="repo-link"
+                            href="${repo.html_url}"
+                            target="_blank">
+
+                            Explore ↗
+
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                repoContainer.appendChild(card);
+
+            });
+
+        }
+
+
+        /* =========================================
+           THEME
+        ========================================= */
+
+        applyTheme(
+            personalData.theme
+        );
+
+    }
+
+
+    /* =========================================
+       SECURITY HELPER
+    ========================================= */
+
+    function escapeHTML(value) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            value || "";
+
+        return div.innerHTML;
+
+    }
+
+
+    /* =========================================
+       THEME SYSTEM
+    ========================================= */
+
+    function applyTheme(theme) {
+
+        if (theme === "aurora") {
+
+            document.documentElement.style.setProperty(
+                "--accent",
+                "#6ee7ff"
+            );
+
+            document.documentElement.style.setProperty(
+                "--accent2",
+                "#8b5cf6"
+            );
+
+            document.body.style.background =
+                `
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(34,211,238,.18),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 85% 25%,
+                    rgba(139,92,246,.16),
+                    transparent 25%
+                ),
+                #07090d
+                `;
+
+        }
+
+
+        else if (theme === "minimal") {
+
+            document.documentElement.style.setProperty(
+                "--accent",
+                "#ffffff"
+            );
+
+            document.documentElement.style.setProperty(
+                "--accent2",
+                "#aaaaaa"
+            );
+
+            document.body.style.background =
+                "#0b0b0b";
+
+        }
+
+
+        else {
+
+            /*
+               Midnight default
+            */
+
+            document.documentElement.style.setProperty(
+                "--accent",
+                "#b99cff"
+            );
+
+            document.documentElement.style.setProperty(
+                "--accent2",
+                "#7c5cff"
+            );
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
